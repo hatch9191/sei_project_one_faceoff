@@ -1,3 +1,130 @@
-html {
-  background-color: darkblue;
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+* {
+  box-sizing: border-box;
 }
+
+html {
+  background-color: black;
+  font-family: 'Anton', sans-serif;
+}
+
+h1 {
+  font-size: 150px;
+  color: white;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 20px 0 0 0;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+  
+}
+
+.grid-wrapper {
+  height: 690px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.side-images {
+  position: absolute;
+  height: 690px;
+  width: 358px;
+  z-index: 0;
+/*   display: none; */
+}
+
+.side-images img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#ct-face-right {
+  right: 0;
+}
+
+#sa-face-left {
+  left: 0;
+}
+
+.grid {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 650px;
+  height: 650px;
+  min-width: 650px;
+  z-index: 1;
+/*   background-color: darkgray; */
+}
+
+.grid div {
+  border: 1px solid rgb(248, 244, 244);
+  height: 10%;
+  width: 10%;
+  color: white
+}
+
+.grid div.player {
+  background-image: url('../assets/player_shooting.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.grid div.enemy {
+  background-image: url('../assets/officer_shooting.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.grid div.crate {
+  background-image: url('../assets/crate.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.grid div.player-shot {
+  background-image: url('../assets/player_shot.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.grid div.enemy-shot {
+  background-image: url('../assets/enemy_shot.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/*
+@media screen and (max-width: 700px) {
+  h1 {
+    font-size: 50px;
+  }
+  
+  .grid div {
+    height: 10%;
+    width: 10%;
+  }
+
+  .grid {
+    width: 325px;
+    height: 325px;
+    min-width: 325px;
+  }
+
+  .grid-wrapper {
+    height: 340px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .side-images {
+    Display: none;
+  }
+}
+*/
