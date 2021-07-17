@@ -23,9 +23,11 @@ const enemyShotClass = 'enemy-shot'
 let playerPosition = 93
 let enemyArray = [0, 2, 4, 6, 8, 11, 13, 15, 17, 19, 20, 22, 24, 26, 28]
 let playerShotArray = [83]
-let enemyShotArray = [36]
+let enemyShotArray = []
 
 // FUNCTIONS
+
+//GRID AND OBJECTS
 function createGrid() {
   for (let i = 0; i < cellCount; i++) {
     const cell = document.createElement('div')
@@ -34,6 +36,15 @@ function createGrid() {
     cells.push(cell)
   }
 }
+
+function addCrate() {
+  crateArray.map(crate => {
+    cells[crate].classList.add(crateClass)
+  })
+}
+
+// ENEMY FUNCTIONS
+// MOVEMENT
 
 function addEnemy() {
   enemyArray.map(enemy => {
@@ -57,18 +68,47 @@ function moveEnemy() {
   const intervalId = setInterval(() => {
     removeEnemy()
     getNewEnemy()
-    if (enemyArray[enemyArray.length - 1] === 89) {
+    if (enemyArray[enemyArray.length - 1] === playerPosition || enemyArray[enemyArray.length - 1] === 99) {
       clearInterval(intervalId)
     } 
     addEnemy()
   }, 800)
 }
 
-function addCrate() {
-  crateArray.map(crate => {
-    cells[crate].classList.add(crateClass)
+// SHOOTING
+
+function addEnemyShot() {
+  enemyShotArray.push(enemyArray[Math.random(enemyArray.length)] + 10)
+  enemyShotArray.map(shot => {
+    cells[shot].classList.add(enemyShotClass)
   })
 }
+
+function removeEnemyShot() {
+  enemyShotArray.map(shot => {
+    cells[shot].classList.remove(enemyShotClass)
+  })
+}
+
+function enemyShotMoves() {
+  enemyArray = enemyArray.map(enemy => {
+    return enemy + 10
+  })
+}
+
+function enemyShoots() {
+  const intervalId = setInterval(() => {
+    removeEnemyShot()
+    enemyShotMoves()
+    if (enemyShotArray[enemyShotArray.length - 1] === playerPosition || enemyShotArray[enemyArray.length - 1] > 99) {
+      clearInterval(intervalId)
+    } 
+    addEnemyShot()
+  }, 1000)
+}
+
+// PLAYER FUNCTIONS
+// MOVEMENT
 
 function addPlayer() {
   cells[playerPosition].classList.add(playerClass)
@@ -76,18 +116,6 @@ function addPlayer() {
 
 function removePlayer() {
   cells[playerPosition].classList.remove(playerClass)
-}
-
-function playerShoots() {
-  playerShotArray.map(shot => {
-    cells[shot].classList.add(playerShotClass)
-  })
-}
-
-function enemyShoots() {
-  enemyShotArray.map(shot => {
-    cells[shot].classList.add(enemyShotClass)
-  })
 }
 
 function playerMoves(event) {
@@ -113,6 +141,14 @@ function playerMoves(event) {
   addPlayer()
 }
 
+// SHOOTING
+
+function playerShoots() {
+  playerShotArray.map(shot => {
+    cells[shot].classList.add(playerShotClass)
+  })
+}
+
 // if enemyArray.length > 1 player wins
 
 createGrid()
@@ -126,7 +162,10 @@ addCrate()
 addPlayer()
 
 playerShoots()
-enemyShoots() 
+
+enemyShoots()
+
+// addEnemyShot() 
 
 // EVENT LISTENERS
 
