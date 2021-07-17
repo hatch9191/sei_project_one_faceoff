@@ -21,9 +21,9 @@ const enemyShotClass = 'enemy-shot'
 
 // VARIABLES
 let playerPosition = 93
-let enemyArray = [2, 4, 5, 7, 11, 13, 16, 18, 21, 22, 24, 25, 27, 28]
+let enemyArray = [0, 2, 4, 6, 8, 11, 13, 15, 17, 19, 20, 22, 24, 26, 28]
 let playerShotArray = [83]
-let enemyShotArray = [37]
+let enemyShotArray = [36]
 
 // FUNCTIONS
 function createGrid() {
@@ -35,10 +35,33 @@ function createGrid() {
   }
 }
 
-function addEnemies() {
+function addEnemy() {
   enemyArray.map(enemy => {
     cells[enemy].classList.add(enemyClass)
   })
+}
+
+function removeEnemy() {
+  enemyArray.map(enemy => {
+    cells[enemy].classList.remove(enemyClass)
+  })
+}
+
+function getNewEnemy() {
+  enemyArray = enemyArray.map(enemy => {
+    return enemy + 1
+  })
+}
+
+function moveEnemy() {
+  const intervalId = setInterval(() => {
+    removeEnemy()
+    getNewEnemy()
+    if (enemyArray[enemyArray.length - 1] === 89) {
+      clearInterval(intervalId)
+    } 
+    addEnemy()
+  }, 800)
 }
 
 function addCrate() {
@@ -62,12 +85,9 @@ function playerShoots() {
 }
 
 function enemyShoots() {
-
-}
-
-
-function enemyMoves() {
-
+  enemyShotArray.map(shot => {
+    cells[shot].classList.add(enemyShotClass)
+  })
 }
 
 function playerMoves(event) {
@@ -93,16 +113,20 @@ function playerMoves(event) {
   addPlayer()
 }
 
+// if enemyArray.length > 1 player wins
 
 createGrid()
 
-addEnemies()
+addEnemy()
+
+// moveEnemy()
 
 addCrate()
 
 addPlayer()
 
 playerShoots()
+enemyShoots() 
 
 // EVENT LISTENERS
 

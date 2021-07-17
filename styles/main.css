@@ -28,6 +28,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 
 .side-images {
@@ -60,7 +61,8 @@ body {
   height: 650px;
   min-width: 650px;
   z-index: 1;
-/*   background-color: darkgray; */
+  background-color: rgba(138, 132, 132, 0.37);
+  
 }
 
 .grid div {
