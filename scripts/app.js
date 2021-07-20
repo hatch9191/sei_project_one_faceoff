@@ -10,23 +10,20 @@ const grid = document.querySelector('.grid')
 
 // CONSTANTS
 const cells = []
-const width = 10
+const width = 14
 const cellCount = width * width
 const playerClass = 'player'
 const enemyClass = 'enemy'
-const crateArray = [81, 84, 85, 88]
+const deadEnemyClass = 'dead-enemy'
+const crateArray = [142, 143, 146, 147, 150, 151]
 const crateClass = 'crate'
+const brokenCrateClass = 'crate-broken'
 const playerShotClass = 'player-shot'
 const enemyShotClass = 'enemy-shot'
-const playerRow = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
-
-console.log(playerRow)
 
 // VARIABLES
-let playerPosition = 93
-let enemyArray = [0, 2, 4, 6, 8, 11, 13, 15, 17, 19, 20, 22, 24, 26, 28]
-let enemyShotArray = []
-let playerShotArray = []
+let playerPosition = 174
+let enemyArray = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 30,	31,	32,	33,	34,	35,	36,	37,	38,	39, 44, 45,	46,	47,	48,	49,	50,	51,	52,	53]
 
 // FUNCTIONS
 
@@ -71,7 +68,7 @@ function moveEnemy() {
   const intervalId = setInterval(() => {
     removeEnemy()
     getNewEnemy()
-    if (enemyArray[enemyArray.length - 1] === playerPosition || enemyArray[enemyArray.length - 1] === 99) {
+    if (enemyArray[enemyArray.length - 1] === playerPosition || enemyArray[enemyArray.length - 1] === 195) {
       clearInterval(intervalId)
     } 
     addEnemy()
@@ -79,78 +76,41 @@ function moveEnemy() {
 }
 
 // SHOOTING
-// const newShot = enemyArray[Math.floor(Math.random() * (enemyArray.length - 1))] + 10
 
 function addRandomEnemyShot() {
-  // enemyShotArray.push(enemyArray[Math.floor(Math.random() * (enemyArray.length - 1))] + 10)
-  // addEnemyShot() 
-  // enemyShotMoves()
-
   
-  setInterval(() => {
-    let newShot = enemyArray[Math.floor(Math.random() * (enemyArray.length - 1))] + 10
-    const newInternval = setInterval(() => {
+  const shotGenerateInterval = setInterval(() => {
+    let newShot = enemyArray[Math.floor(Math.random() * (enemyArray.length - 1))] + width
+    cells[newShot].classList.add(enemyShotClass)
+    
+    const shotMoveInterval = setInterval(() => {
       cells[newShot].classList.remove(enemyShotClass)
-      newShot = newShot + 10
+      newShot = newShot + width
       cells[newShot].classList.add(enemyShotClass)
-      console.log(newShot)
-      if (cells[newShot] > 90) {
-        console.log(newShot)
-        newShot = null
-        // cells[newShot].classList.remove(enemyShotClass)
+      if (newShot > 182) {
+        setTimeout(() => {
+          cells[newShot].classList.remove(enemyShotClass)
+        }, 1000)
+        clearInterval(shotMoveInterval)
+      } else if (cells[newShot].classList.contains(crateClass)) {
+        cells[newShot].classList.remove(enemyShotClass)
+        cells[newShot].classList.remove(crateClass)
+        cells[newShot].classList.add(brokenCrateClass)
+        setTimeout(() => {
+          cells[newShot].classList.remove(brokenCrateClass)
+        }, 400)
+        clearInterval(shotMoveInterval)
+      } else if (cells[newShot].classList.contains(playerClass)) {
+        cells[newShot].classList.remove(enemyShotClass)
+        clearInterval(shotGenerateInterval)
+        clearInterval(shotMoveInterval)
         
-        clearInterval(newInternval)
-      } 
-    }, 1000)
-  }, 5000)
+      }
+    }, 120)
+  }, 4500)
 }
 
 addRandomEnemyShot()
-// function addEnemyShot() {
-//   cells[newShot].classList.add(enemyShotClass)
-// }
-
-// function removeEnemyShot() {
-//   // enemyShotArray.map(shot => {
-//   cells[newShot].classList.remove(enemyShotClass)
-//   // })
-// }
-
-// function enemyShotMoves() { 
-  
-//   const shotMoveInterval = setInterval(() => {
-//     removeEnemyShot()
-//     enemyShotArray = enemyShotArray.map(shot => {
-//       console.log(shot)
-//       if (shot === playerPosition) {
-//         clearInterval(shotMoveInterval)
-//       } else if (shot > 90) {
-//         console.log('I am here')
-//         removeEnemyShot()
-//         // enemyShotArray.shift()
-//         // console.log(enemyShotArray)
-//         // clearInterval(shotMoveInterval)
-//       } else {
-//         // console.log('Hello World')
-//         return shot + 10
-//       }
-//     })
-    
-   
-//     addEnemyShot()
-//   }, 1000)
-// }
-
-// function enemyShoots() {
-//   const intervalId = setInterval(() => {
-//     removeEnemyShot()
-//     addRandomEnemyShot()
-//     // enemyShotMoves()
-//     // if (enemyShotArray[enemyShotArray.length - 1] === playerPosition || enemyShotArray[enemyArray.length - 1] > 99) {
-//     //   clearInterval(intervalId)
-//     // } 
-//   }, 2000)
-
 
 // PLAYER FUNCTIONS
 // MOVEMENT
@@ -179,70 +139,52 @@ function playerControls(event) {
         playerPosition --
       }
       break
-    case 32:
-      playerShoots()
+    case 16:
+      playerShotMoves()
       break
     default:
-      console.log('Invalid movement')
+      console.log('Invalid key')
   }
-  console.log(playerPosition)
+  
   addPlayer()
 }
 
 // SHOOTING
 
-function addPlayerShot() {
-  playerShotArray.map(shot => {
-    cells[shot].classList.add(playerShotClass)
-  })
-}
-
-function removePlayerShot() {
-  playerShotArray.map(shot => {
-    cells[shot].classList.remove(playerShotClass)
-  })
-}
-
-function playerShoots() {
-  playerShotArray.push(playerPosition - 10)
-  playerShotArray.map(shot => {
-    cells[shot].classList.add(playerShotClass)
-  })
-  playerShotMoves()
-}
-
 function playerShotMoves() { 
-  const intervalId = setInterval(() => {
-    removePlayerShot()
-    playerShotArray = playerShotArray.map(shot => {
-      // if (shot === playerPosition) {
-      //   clearInterval(intervalId)
-      // } else if (shot > 99) {
-      //   enemyShotArray.pop(enemyShotArray[enemyShotArray.length - (enemyShotArray.length - 1)])
-      // } else
-        return shot - 10
-    })
-    // })
-    // if (enemyShotArray[enemyShotArray.length - 1] === playerPosition) {
-    //   clearInterval(intervalId)
-    // } else if (enemyShotArray[enemyArray.length - 1] > 99) {
-    //   enemyShotArray.pop(enemyShotArray[enemyShotArray.length - (enemyShotArray.length - 1)])
-    // }  
-    addPlayerShot()
-  }, 1000)
+  let newShot = playerPosition - width
+  cells[newShot].classList.add(playerShotClass)
+  const shotMoveInterval = setInterval(() => {
+    cells[newShot].classList.remove(playerShotClass)
+    newShot = newShot - width
+    cells[newShot].classList.add(playerShotClass)
+    if (newShot < 13) {
+      setTimeout(() => {
+        cells[newShot].classList.remove(playerShotClass)
+      }, 1000)
+      clearInterval(shotMoveInterval)
+    } else if (cells[newShot].classList.contains(crateClass)) {
+      cells[newShot].classList.remove(playerShotClass)
+      cells[newShot].classList.remove(crateClass)
+      cells[newShot].classList.add(brokenCrateClass)
+      setTimeout(() => {
+        cells[newShot].classList.remove(brokenCrateClass)
+      }, 400)
+      clearInterval(shotMoveInterval)
+    } else if (cells[newShot].classList.contains(enemyClass)) {
+      cells[newShot].classList.remove(playerShotClass)
+      cells[newShot].classList.remove(enemyClass)
+      cells[newShot].classList.add(deadEnemyClass)
+      setTimeout(() => {
+        cells[newShot].classList.remove(deadEnemyClass)
+        enemyArray = enemyArray.filter(enemy => {
+          return enemy !== newShot
+        })
+      }, 400)
+      clearInterval(shotMoveInterval)   
+    }
+  }, 100)
 }
-
-// function handlePlayerTrigger(event) {
-//   switch (event.keyCode) {
-//     case 49:
-//       playerShoots
-//       break
-//     default:
-//       console.log('Invalid movement')
-//   }
-//   console.log(playerPosition)
-//   addPlayer()
-// }
 
 // if enemyArray.length < 1 player wins
 
@@ -255,8 +197,6 @@ addEnemy()
 addCrate()
 
 addPlayer()
-
-enemyShoots()
 
 // EVENT LISTENERS
 

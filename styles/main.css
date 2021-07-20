@@ -67,8 +67,8 @@ body {
 
 .grid div {
   border: 1px solid rgb(248, 244, 244);
-  height: 10%;
-  width: 10%;
+  height: calc(100% / 14);
+  width: calc(100% / 14);
   color: white
 }
 
@@ -84,8 +84,20 @@ body {
   background-size: contain;
 }
 
+.grid div.dead-enemy {
+  background-image: url('../assets/officer_dead.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 .grid div.crate {
   background-image: url('../assets/crate.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.grid div.crate-broken {
+  background-image: url('../assets/crate_broken.png');
   background-repeat: no-repeat;
   background-size: contain;
 }
