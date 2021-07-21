@@ -20,7 +20,6 @@ const brokenCrateClass = 'crate-broken'
 const playerShotClass = 'player-shot'
 const enemyShotClass = 'enemy-shot'
 const scoreTicker = document.getElementById('score-ticker')
-const lifeTicker = document.getElementById('life-ticker')
 const playerAudio = document.getElementById('player-audio')
 const enemyAudio = document.getElementById('enemy-audio')
 const objectAudio = document.getElementById('object-audio')
@@ -33,6 +32,9 @@ const castorHurtSound = './sounds/castor_hit.wav'
 const fightMusic = './sounds/face_off_fight_track.wav'
 const menuMusic = './'
 const fxAudio = document.querySelectorAll('.fx')
+const gunOne = document.getElementById('gun-one')
+const gunTwo = document.getElementById('gun-two')
+const gunThree = document.getElementById('gun-three')
 
 // VARIABLES
 let playerPosition = 174
@@ -146,7 +148,13 @@ function addRandomEnemyShot() {
         score -= 150
         scoreTicker.innerHTML = score
         lives -= 1
-        lifeTicker.innerHTML = lives
+        if (lives === 2) {
+          gunOne.style.display = 'none'
+        } else if (lives === 1) {
+          gunTwo.style.display = 'none'
+        } else if ((lives === 0)) {
+          gunThree.style.display = 'none'
+        }
         cells[newShot].classList.remove(enemyShotClass)
         // clearInterval(shotGenerateInterval)
         clearInterval(shotMoveInterval)  
@@ -156,7 +164,7 @@ function addRandomEnemyShot() {
   }, 4500)
 }
 
-addRandomEnemyShot()
+// addRandomEnemyShot()
 
 // PLAYER FUNCTIONS
 // MOVEMENT
@@ -257,7 +265,7 @@ addCrate()
 
 addPlayer()
 
-playMusic(backingAudio, fightMusic)
+// playMusic(backingAudio, fightMusic)
 
 // EVENT LISTENERS
 

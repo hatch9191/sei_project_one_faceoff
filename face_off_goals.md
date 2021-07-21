@@ -9,12 +9,12 @@
 <!-- - Goons killed on impact -->
 <!-- - Goons move down board row by row -->
 - Game over for player on impact of bullet or goon moving down page
-- Soundtrack
+<!-- - Soundtrack -->
 
 // Would Like to Have
 
 - Menu screen with player selection: Sean Archer or Castor Troy (swap goons for police?)
-- Sounds for shoot and impact
+<!-- - Sounds for shoot and impact -->
 <!-- - Dead character image for a moment on impact -->
 - Killing antagonist wins game
 - Antagonist is also bigger/more pixels
