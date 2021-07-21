@@ -10,11 +10,20 @@
 </head>
 <header>
   <h1>Face/Off</h1>
+  <h3>The Game</h3>
+  <audio id="soundtrack"></audio>
+  <audio class="fx" id="player-audio"></audio>
+  <audio class="fx" id="enemy-audio"></audio>
+  <audio class="fx" id="object-audio"></audio>
+  <audio class="fx" id="person-hit"></audio>
 </header> 
 <body>
   <div class="grid-wrapper">
     <div class="side-images" id="sa-face-left"><img src="./assets/john_t_left.png" alt="Intense image of Sean Archer looking at camera"></div>
-    <div class="grid"></div>
+    <div class="grid">
+      <p class="score">Score: <a id="score-ticker">0</a></p>
+      <p class="lives">Lives: <a id="life-ticker">3</a></p>
+    </div>
     <div class="side-images" id="ct-face-right"><img src="./assets/nick_c_right.png" alt="Intense image of Castor Troy looking at camera"></div>
   </div>
 </body>

@@ -7,14 +7,21 @@
 html {
   background-color: black;
   font-family: 'Anton', sans-serif;
+  color: white;
+  text-transform: uppercase;
+  border-top: 20px white solid;
 }
 
 h1 {
   font-size: 150px;
-  color: white;
-  text-transform: uppercase;
   text-align: center;
-  margin: 20px 0 0 0;
+  margin: -30px 0 -45px 0;
+}
+
+h3 {
+  text-align: center;
+  margin: 0 0 -10px 0;
+  font-size: 30px;
 }
 
 body {
@@ -24,11 +31,29 @@ body {
 }
 
 .grid-wrapper {
-  height: 690px;
+  height: 730px;
   display: flex;
   justify-content: center;
   align-items: center;
-  
+  position: relative;
+  border-bottom: 20px white solid;
+}
+
+
+.score, .lives {
+  position: absolute;
+  top: 0;
+  padding: 5px;
+  margin: 0;
+  font-size: 20px;
+}
+
+.score {
+  left: 30px;
+}
+
+.lives {
+  right: 30px;
 }
 
 .side-images {
@@ -52,6 +77,8 @@ body {
   left: 0;
 }
 
+
+
 .grid {
   align-items: center;
   display: flex;
@@ -62,18 +89,22 @@ body {
   min-width: 650px;
   z-index: 1;
   background-color: rgba(138, 132, 132, 0.37);
-  
+  position: relative;
+  border: 5px white double;
+  border-radius: 2%;
 }
 
+
+
 .grid div {
-  border: 1px solid rgb(248, 244, 244);
+  /* border: 1px solid rgb(248, 244, 244); */
   height: calc(100% / 14);
   width: calc(100% / 14);
   color: white
 }
 
 .grid div.player {
-  background-image: url('../assets/player_shooting.png');
+  background-image: url('../assets/Castor_shooting.png');
   background-repeat: no-repeat;
   background-size: contain;
 }
@@ -113,6 +144,7 @@ body {
   background-repeat: no-repeat;
   background-size: contain;
 }
+
 
 /*
 @media screen and (max-width: 700px) {

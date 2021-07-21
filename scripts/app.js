@@ -7,7 +7,6 @@
 // ELEMENTS
 const grid = document.querySelector('.grid')
 
-
 // CONSTANTS
 const cells = []
 const width = 14
@@ -15,15 +14,31 @@ const cellCount = width * width
 const playerClass = 'player'
 const enemyClass = 'enemy'
 const deadEnemyClass = 'dead-enemy'
-const crateArray = [142, 143, 146, 147, 150, 151]
+const crateArray = [128, 129, 132, 133, 136, 137, 142, 143, 146, 147, 150, 151]
 const crateClass = 'crate'
 const brokenCrateClass = 'crate-broken'
 const playerShotClass = 'player-shot'
 const enemyShotClass = 'enemy-shot'
+const scoreTicker = document.getElementById('score-ticker')
+const lifeTicker = document.getElementById('life-ticker')
+const playerAudio = document.getElementById('player-audio')
+const enemyAudio = document.getElementById('enemy-audio')
+const objectAudio = document.getElementById('object-audio')
+const backingAudio = document.getElementById('soundtrack')
+const playerShootingSound = './sounds/player_shot_fired.wav'
+const enemyShootingSound = './sounds/enemy_shot_fired.wav'
+const crateBreakingSound = './sounds/box_smash_short.wav'
+const enemyHurtSound = './sounds/enemy_hurt.wav'
+const castorHurtSound = './sounds/castor_hit.wav'
+const fightMusic = './sounds/face_off_fight_track.wav'
+const menuMusic = './'
+const fxAudio = document.querySelectorAll('.fx')
 
 // VARIABLES
 let playerPosition = 174
 let enemyArray = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 30,	31,	32,	33,	34,	35,	36,	37,	38,	39, 44, 45,	46,	47,	48,	49,	50,	51,	52,	53]
+let score = 0
+let lives = 3
 
 // FUNCTIONS
 
@@ -31,7 +46,7 @@ let enemyArray = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 30,	31,	32,	33,	34,	35
 function createGrid() {
   for (let i = 0; i < cellCount; i++) {
     const cell = document.createElement('div')
-    cell.textContent = i
+    // cell.textContent = i
     grid.appendChild(cell)
     cells.push(cell)
   }
@@ -41,6 +56,22 @@ function addCrate() {
   crateArray.map(crate => {
     cells[crate].classList.add(crateClass)
   })
+}
+
+// AUDIO
+
+playerAudio.volume = 0.6
+enemyAudio.volume = 0.6
+objectAudio.volume = 0.6
+
+function playFxAudio(audio, clip) {
+  audio.src = clip
+  audio.play()
+}
+
+function playMusic(audio, clip) {
+  audio.src = clip
+  audio.play()
 }
 
 // ENEMY FUNCTIONS
@@ -80,19 +111,27 @@ function moveEnemy() {
 function addRandomEnemyShot() {
   
   const shotGenerateInterval = setInterval(() => {
+
     let newShot = enemyArray[Math.floor(Math.random() * (enemyArray.length - 1))] + width
     cells[newShot].classList.add(enemyShotClass)
-    
+    playFxAudio(enemyAudio, enemyShootingSound)
+
     const shotMoveInterval = setInterval(() => {
+
       cells[newShot].classList.remove(enemyShotClass)
       newShot = newShot + width
       cells[newShot].classList.add(enemyShotClass)
+
       if (newShot > 182) {
+
         setTimeout(() => {
           cells[newShot].classList.remove(enemyShotClass)
         }, 1000)
         clearInterval(shotMoveInterval)
+
       } else if (cells[newShot].classList.contains(crateClass)) {
+
+        playFxAudio(objectAudio, crateBreakingSound)
         cells[newShot].classList.remove(enemyShotClass)
         cells[newShot].classList.remove(crateClass)
         cells[newShot].classList.add(brokenCrateClass)
@@ -100,13 +139,20 @@ function addRandomEnemyShot() {
           cells[newShot].classList.remove(brokenCrateClass)
         }, 400)
         clearInterval(shotMoveInterval)
+
       } else if (cells[newShot].classList.contains(playerClass)) {
+
+        playFxAudio(playerAudio, castorHurtSound)
+        score -= 150
+        scoreTicker.innerHTML = score
+        lives -= 1
+        lifeTicker.innerHTML = lives
         cells[newShot].classList.remove(enemyShotClass)
-        clearInterval(shotGenerateInterval)
-        clearInterval(shotMoveInterval)
-        
+        // clearInterval(shotGenerateInterval)
+        clearInterval(shotMoveInterval)  
       }
     }, 120)
+
   }, 4500)
 }
 
@@ -152,18 +198,27 @@ function playerControls(event) {
 // SHOOTING
 
 function playerShotMoves() { 
+  
   let newShot = playerPosition - width
   cells[newShot].classList.add(playerShotClass)
+  playFxAudio(playerAudio, playerShootingSound)
+  
   const shotMoveInterval = setInterval(() => {
+    
     cells[newShot].classList.remove(playerShotClass)
     newShot = newShot - width
     cells[newShot].classList.add(playerShotClass)
+    
     if (newShot < 13) {
+      
       setTimeout(() => {
         cells[newShot].classList.remove(playerShotClass)
       }, 1000)
       clearInterval(shotMoveInterval)
+    
     } else if (cells[newShot].classList.contains(crateClass)) {
+      
+      playFxAudio(objectAudio, crateBreakingSound)
       cells[newShot].classList.remove(playerShotClass)
       cells[newShot].classList.remove(crateClass)
       cells[newShot].classList.add(brokenCrateClass)
@@ -171,7 +226,12 @@ function playerShotMoves() {
         cells[newShot].classList.remove(brokenCrateClass)
       }, 400)
       clearInterval(shotMoveInterval)
+    
     } else if (cells[newShot].classList.contains(enemyClass)) {
+      
+      playFxAudio(enemyAudio, enemyHurtSound)
+      score += 100
+      scoreTicker.innerHTML = score
       cells[newShot].classList.remove(playerShotClass)
       cells[newShot].classList.remove(enemyClass)
       cells[newShot].classList.add(deadEnemyClass)
@@ -183,10 +243,9 @@ function playerShotMoves() {
       }, 400)
       clearInterval(shotMoveInterval)   
     }
+
   }, 100)
 }
-
-// if enemyArray.length < 1 player wins
 
 createGrid()
 
@@ -198,6 +257,10 @@ addCrate()
 
 addPlayer()
 
+playMusic(backingAudio, fightMusic)
+
 // EVENT LISTENERS
 
 window.addEventListener('keydown', playerControls)
+
+// if enemyArray.length < 1 player wins
