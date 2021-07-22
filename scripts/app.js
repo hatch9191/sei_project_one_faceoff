@@ -30,19 +30,55 @@ const crateBreakingSound = './sounds/box_smash_short.wav'
 const enemyHurtSound = './sounds/enemy_hurt.wav'
 const castorHurtSound = './sounds/castor_hit.wav'
 const fightMusic = './sounds/face_off_fight_track.wav'
-const menuMusic = './'
-const fxAudio = document.querySelectorAll('.fx')
+const startMusic = './sounds/face_off_menu_track.wav'
+const audioButton = document.querySelector('.audio-on')
+const audioOnOff = document.querySelector('.audio-on span')
 const gunOne = document.getElementById('gun-one')
 const gunTwo = document.getElementById('gun-two')
 const gunThree = document.getElementById('gun-three')
+const startGameButton = document.querySelector('.start-game')
+const startMenu = document.querySelector('.start-menu')
+const gameOverMenu = document.querySelector('.game-over')
+const youWinMenu = document.querySelector('.winner')
+const finalScore = document.querySelectorAll('.final-score')
 
 // VARIABLES
 let playerPosition = 174
-let enemyArray = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 30,	31,	32,	33,	34,	35,	36,	37,	38,	39, 44, 45,	46,	47,	48,	49,	50,	51,	52,	53]
+let enemyArray = [16, 17]
+// , 18, 19, 20, 21, 22, 23, 24, 25, 30,	31,	32,	33,	34,	35,	36,	37,	38,	39, 44, 45,	46,	47,	48,	49,	50,	51,	52,	53]
 let score = 0
 let lives = 3
+let musicToggle = 0
 
 // FUNCTIONS
+
+function startGame() {
+  startMenu.style.display = 'none'
+  playFightMusic(backingAudio, fightMusic)
+
+  setTimeout(() => {
+    addPlayer()
+    moveEnemy()
+    addRandomEnemyShot()
+  }, 1000)
+  
+}
+
+function gameOverScreen() {
+  finalScore.innerHTML = score
+  gameOverMenu.style.display = 'flex'
+}
+
+function youWinScreen() {
+  finalScore.innerText = score
+  youWinMenu.style.display = 'flex'
+}
+
+setInterval(() => {
+  if (enemyArray.length === 0) {
+    youWinScreen()
+  }
+}, 500)
 
 //GRID AND OBJECTS
 function createGrid() {
@@ -62,18 +98,30 @@ function addCrate() {
 
 // AUDIO
 
-playerAudio.volume = 0.6
-enemyAudio.volume = 0.6
-objectAudio.volume = 0.6
+playerAudio.volume = 0.5
+enemyAudio.volume = 0.5
+objectAudio.volume = 0.5
 
 function playFxAudio(audio, clip) {
   audio.src = clip
   audio.play()
 }
 
-function playMusic(audio, clip) {
-  audio.src = clip
-  audio.play()
+function playStartMusic() {
+  backingAudio.src = startMusic
+  musicToggle += 1
+  if (musicToggle % 2 === 0) {
+    audioOnOff.innerHTML = 'Off'
+    backingAudio.pause()
+  } else {
+    audioOnOff.innerHTML = 'On'
+    backingAudio.play()
+  }
+}
+
+function playFightMusic() {
+  backingAudio.src = fightMusic
+  backingAudio.play()
 }
 
 // ENEMY FUNCTIONS
@@ -103,6 +151,7 @@ function moveEnemy() {
     getNewEnemy()
     if (enemyArray[enemyArray.length - 1] === playerPosition || enemyArray[enemyArray.length - 1] === 195) {
       clearInterval(intervalId)
+      // gameOver function
     } 
     addEnemy()
   }, 800)
@@ -125,11 +174,11 @@ function addRandomEnemyShot() {
       cells[newShot].classList.add(enemyShotClass)
 
       if (newShot > 182) {
-
+        clearInterval(shotMoveInterval)
         setTimeout(() => {
           cells[newShot].classList.remove(enemyShotClass)
-        }, 1000)
-        clearInterval(shotMoveInterval)
+        }, 1001)
+        
 
       } else if (cells[newShot].classList.contains(crateClass)) {
 
@@ -154,6 +203,7 @@ function addRandomEnemyShot() {
           gunTwo.style.display = 'none'
         } else if ((lives === 0)) {
           gunThree.style.display = 'none'
+          // gameOver function
         }
         cells[newShot].classList.remove(enemyShotClass)
         // clearInterval(shotGenerateInterval)
@@ -163,8 +213,6 @@ function addRandomEnemyShot() {
 
   }, 4500)
 }
-
-// addRandomEnemyShot()
 
 // PLAYER FUNCTIONS
 // MOVEMENT
@@ -210,6 +258,7 @@ function playerShotMoves() {
   let newShot = playerPosition - width
   cells[newShot].classList.add(playerShotClass)
   playFxAudio(playerAudio, playerShootingSound)
+  console.log(enemyArray)
   
   const shotMoveInterval = setInterval(() => {
     
@@ -217,12 +266,12 @@ function playerShotMoves() {
     newShot = newShot - width
     cells[newShot].classList.add(playerShotClass)
     
-    if (newShot < 13) {
-      
+    if (newShot < 14) {
+      clearInterval(shotMoveInterval)
       setTimeout(() => {
         cells[newShot].classList.remove(playerShotClass)
-      }, 1000)
-      clearInterval(shotMoveInterval)
+      }, 1001)
+      
     
     } else if (cells[newShot].classList.contains(crateClass)) {
       
@@ -259,16 +308,14 @@ createGrid()
 
 addEnemy()
 
-// moveEnemy()
-
 addCrate()
-
-addPlayer()
-
-// playMusic(backingAudio, fightMusic)
 
 // EVENT LISTENERS
 
 window.addEventListener('keydown', playerControls)
+
+audioButton.addEventListener('click', playStartMusic)
+
+startGameButton.addEventListener('click', startGame)
 
 // if enemyArray.length < 1 player wins

@@ -9,10 +9,10 @@
   <title>SEI Project 1 - FACE/OFF The Game</title>
 </head>
 <header>
-  <h1>Face/Off</h1>
-  <h3>The Game</h3>
-  <!-- <div class="gun-asides" id="gun-right"></div>
-  <div class="gun-asides" id="gun-left"></div> -->
+  <div class="title">
+    <h1 class="white">Face</h1><h1 class="red">/</h1><h1 class="white">Off</h1>
+  </div>
+  <h2>The Game</h2>
   <audio id="soundtrack"></audio>
   <audio class="fx" id="player-audio"></audio>
   <audio class="fx" id="enemy-audio"></audio>
@@ -22,10 +22,70 @@
 <body>
   <div class="grid-wrapper">
     <div class="side-images" id="sa-face-left"><img src="./assets/john_t_left.png" alt="Intense image of Sean Archer looking at camera"></div>
+    <div class="start-menu">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/H6ywTyB4O04?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <h3>Story</h3>
+      <p class="synopsis">Obsessed with bringing terrorist Castor Troy to justice, FBI agent Sean Archer tracks down Troy, who has boarded a plane in Los Angeles. After a daring chase along the runway the plane crashes. Battle Sean Archer and his troop of stupid cops in order to escape.</p>
+      <div class="start-bottom">
+        <div class="start-left">
+          <h3>Controls</h3>
+          <div class="controls">
+            <div class="shift keys">
+              <img src="./assets/shift.png" alt="shift key">
+              <p>Shoot</p>
+            </div>
+            <div class="movement">
+              <div class="left keys">
+                <img src="./assets/left.png" alt="left arrow key">
+                <p>Move Left</p>
+              </div>        
+              <div class="right keys">
+                <img src="./assets/right.png" alt="right arrow key">
+                <p>Move Right</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="start-right">
+          <h3>Settings & Start</h3>
+          <div class="buttons">
+            <div class="audio-on">
+              <img src="./assets/audio.png" alt="audio symbol">
+              <p>Music <span>On</span></p>
+            </div>
+            <div class="start-game">
+              <img class="guns" src="./assets/gold_gun.png" alt="castor troy's gold gun">
+              <p>Start</p>
+            </div>
+          </div>
+        </div>
+      </div>    
+    </div>
+    <div class="game-over">
+      <div class="alert">
+        <h1 class="white">Game</h1><h1 class="red">/</h1><h1 class="white">Over</h1>
+      </div>
+      <iframe class="gif" src="https://giphy.com/embed/11cKPoeKLzuAeI"></iframe>
+      <h3>A valiant effort. You scored <span class="final-score"></span> points but  the pathetic Archer got you this time.</h3>
+      <div class="start-game">
+        <img class="guns" src="./assets/gold_gun.png" alt="castor troy's gold gun">
+        <p>Try Again?</p>
+      </div>
+    </div>
+    <div class="winner">
+      <div class="alert">
+        <h1 class="white">You</h1><h1 class="red">/</h1><h1 class="white">Win</h1>
+      </div>
+      <iframe class="gif" src="https://giphy.com/embed/glvyCVWYJ21fq"></iframe>
+      <h3>Those cops dropped like flies! You scored <span class="final-score"></span> points to defeat the pathetic Archer. Now go on to conquer the world.</h3>
+      <div class="start-game">
+        <img class="guns" src="./assets/gold_gun.png" alt="castor troy's gold gun">
+        <p>Try Again?</p>
+      </div>
+    </div>
     <div class="grid">
       <p class="score">Score: <a id="score-ticker">0</a></p>
       <p class="lives">Lives: <img class="guns" id="gun-three" src="./assets/gold_gun.png"/><img class="guns" id="gun-two" src="./assets/gold_gun.png"/><img class="guns" id="gun-one" src="./assets/gold_gun.png"/></p>
-      <!-- <a id="life-ticker">3</a> -->
     </div>
     <div class="side-images" id="ct-face-right"><img src="./assets/nick_c_right.png" alt="Intense image of Castor Troy looking at camera"></div>
   </div>
