@@ -13,6 +13,7 @@ const width = 14
 const cellCount = width * width
 const playerClass = 'player'
 const enemyClass = 'enemy'
+const playerDeadClass = 'player-dead'
 const deadEnemyClass = 'dead-enemy'
 const crateArray = [128, 129, 132, 133, 136, 137, 142, 143, 146, 147, 150, 151]
 const crateClass = 'crate'
@@ -28,35 +29,67 @@ const playerShootingSound = './sounds/player_shot_fired.wav'
 const enemyShootingSound = './sounds/enemy_shot_fired.wav'
 const crateBreakingSound = './sounds/box_smash_short.wav'
 const enemyHurtSound = './sounds/enemy_hurt.wav'
-const castorHurtSound = './sounds/castor_hit.wav'
+const castorHurtSoundOne = './sounds/castor_hurt1.wav'
+const castorHurtSoundTwo = './sounds/castor_hurt2.wav'
+const castorDead = './sounds/final_death_explicit.wav'
 const fightMusic = './sounds/face_off_fight_track.wav'
 const startMusic = './sounds/face_off_menu_track.wav'
+const winnerMusic = './sounds/win_music.wav'
+const loserMusic = './sounds/loser_music.wav'
 const audioButton = document.querySelector('.audio-on')
 const audioOnOff = document.querySelector('.audio-on span')
 const gunOne = document.getElementById('gun-one')
 const gunTwo = document.getElementById('gun-two')
 const gunThree = document.getElementById('gun-three')
 const startGameButton = document.querySelector('.start-game')
+const tryAgainButton1 = document.querySelector('.try-again1')
+const tryAgainButton2 = document.querySelector('.try-again2')
 const startMenu = document.querySelector('.start-menu')
 const gameOverMenu = document.querySelector('.game-over')
 const youWinMenu = document.querySelector('.winner')
-const finalScore = document.querySelectorAll('.final-score')
+const finalScore1 = document.querySelector('.final-score1')
+const finalScore2 = document.querySelector('.final-score2')
 
 // VARIABLES
 let playerPosition = 174
-let enemyArray = [16, 17]
-// , 18, 19, 20, 21, 22, 23, 24, 25, 30,	31,	32,	33,	34,	35,	36,	37,	38,	39, 44, 45,	46,	47,	48,	49,	50,	51,	52,	53]
+// let archerPosition = 7
+let enemyArray = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 30,	31,	32,	33,	34,	35,	36,	37,	38,	39, 44, 45,	46,	47,	48,	49,	50,	51,	52,	53]
 let score = 0
 let lives = 3
 let musicToggle = 0
+let gameOver = false
+let moveTiming = 600
 
 // FUNCTIONS
 
 function startGame() {
+  
+  gameOver = false
+  score = 0
+  lives = 3
+
+  if (lives === 3) {
+    gunOne.style.display = 'initial'
+    gunTwo.style.display = 'initial'
+  }
+
+  createGrid()
+  removeEnemy()
+  removePlayer()
+
+  enemyArray = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 30,	31,	32,	33,	34,	35,	36,	37,	38,	39, 44, 45,	46,	47,	48,	49,	50,	51,	52,	53]
+  
+  addEnemy()
+  addCrate()
+
   startMenu.style.display = 'none'
+  gameOverMenu.style.display = 'none'
+  youWinMenu.style.display = 'none'
+
   playFightMusic(backingAudio, fightMusic)
 
   setTimeout(() => {
+    playerPosition = 174
     addPlayer()
     moveEnemy()
     addRandomEnemyShot()
@@ -65,19 +98,25 @@ function startGame() {
 }
 
 function gameOverScreen() {
-  finalScore.innerHTML = score
+  playLoserMusic()
   gameOverMenu.style.display = 'flex'
+  finalScore1.innerHTML = score
 }
 
 function youWinScreen() {
-  finalScore.innerText = score
+  playWinnerMusic()
   youWinMenu.style.display = 'flex'
+  finalScore2.innerHTML = score
 }
 
 setInterval(() => {
-  if (enemyArray.length === 0) {
+
+  if (gameOver !== false) {
+    return
+  } else if (enemyArray.length === 0) {
+    gameOver = true
     youWinScreen()
-  }
+  } 
 }, 500)
 
 //GRID AND OBJECTS
@@ -98,9 +137,10 @@ function addCrate() {
 
 // AUDIO
 
-playerAudio.volume = 0.5
-enemyAudio.volume = 0.5
-objectAudio.volume = 0.5
+playerAudio.volume = 0.6
+enemyAudio.volume = 0.6
+objectAudio.volume = 0.6
+backingAudio.volume = 0.7
 
 function playFxAudio(audio, clip) {
   audio.src = clip
@@ -121,6 +161,16 @@ function playStartMusic() {
 
 function playFightMusic() {
   backingAudio.src = fightMusic
+  backingAudio.play()
+}
+
+function playWinnerMusic() {
+  backingAudio.src = winnerMusic
+  backingAudio.play()
+}
+
+function playLoserMusic() {
+  backingAudio.src = loserMusic
   backingAudio.play()
 }
 
@@ -146,15 +196,29 @@ function getNewEnemy() {
 }
 
 function moveEnemy() {
-  const intervalId = setInterval(() => {
+
+  setTimeout(() => {
+
+    if (gameOver !== false) {
+      return
+    }
+
     removeEnemy()
     getNewEnemy()
+    console.log(enemyArray[enemyArray.length - 1])
+
     if (enemyArray[enemyArray.length - 1] === playerPosition || enemyArray[enemyArray.length - 1] === 195) {
-      clearInterval(intervalId)
-      // gameOver function
-    } 
+      gameOver = true
+      playFxAudio(playerAudio, castorDead)
+      setTimeout(() => {
+        gameOverScreen()
+      }, 4500)
+    } else if (enemyArray[enemyArray.length - 1] === 69 || enemyArray[enemyArray.length - 1] === 111) {
+      moveTiming -= 120
+    }
     addEnemy()
-  }, 800)
+    moveEnemy()
+  }, moveTiming)
 }
 
 // SHOOTING
@@ -162,6 +226,10 @@ function moveEnemy() {
 function addRandomEnemyShot() {
   
   const shotGenerateInterval = setInterval(() => {
+
+    if (gameOver !== false) {
+      clearInterval(shotGenerateInterval)
+    }
 
     let newShot = enemyArray[Math.floor(Math.random() * (enemyArray.length - 1))] + width
     cells[newShot].classList.add(enemyShotClass)
@@ -193,25 +261,42 @@ function addRandomEnemyShot() {
 
       } else if (cells[newShot].classList.contains(playerClass)) {
 
-        playFxAudio(playerAudio, castorHurtSound)
         score -= 150
         scoreTicker.innerHTML = score
         lives -= 1
+
         if (lives === 2) {
           gunOne.style.display = 'none'
+          playFxAudio(playerAudio, castorHurtSoundOne)
+          cells[newShot].classList.add(playerDeadClass)
+          setTimeout(() => {
+            cells[newShot].classList.remove(playerDeadClass)
+          }, 500)
         } else if (lives === 1) {
           gunTwo.style.display = 'none'
+          playFxAudio(playerAudio, castorHurtSoundTwo)
+          cells[newShot].classList.add(playerDeadClass)
+          setTimeout(() => {
+            cells[newShot].classList.remove(playerDeadClass)
+          }, 500)
         } else if ((lives === 0)) {
           gunThree.style.display = 'none'
-          // gameOver function
+          playFxAudio(playerAudio, castorDead)
+          cells[newShot].classList.remove(enemyShotClass)
+          cells[newShot].classList.remove(playerClass)
+          cells[newShot].classList.add(playerDeadClass)
+          clearInterval(shotGenerateInterval)
+          clearInterval(shotMoveInterval) 
+          setTimeout(() => {
+            cells[newShot].classList.remove(playerDeadClass)
+            gameOverScreen()
+          }, 4000)
         }
-        cells[newShot].classList.remove(enemyShotClass)
-        // clearInterval(shotGenerateInterval)
-        clearInterval(shotMoveInterval)  
-      }
-    }, 120)
 
-  }, 4500)
+      }
+    }, 140)
+
+  }, 3800)
 }
 
 // PLAYER FUNCTIONS
@@ -297,18 +382,12 @@ function playerShotMoves() {
         enemyArray = enemyArray.filter(enemy => {
           return enemy !== newShot
         })
-      }, 400)
+      }, 250)
       clearInterval(shotMoveInterval)   
     }
 
   }, 100)
 }
-
-createGrid()
-
-addEnemy()
-
-addCrate()
 
 // EVENT LISTENERS
 
@@ -318,4 +397,6 @@ audioButton.addEventListener('click', playStartMusic)
 
 startGameButton.addEventListener('click', startGame)
 
-// if enemyArray.length < 1 player wins
+tryAgainButton1.addEventListener('click', startGame)
+
+tryAgainButton2.addEventListener('click', startGame)
