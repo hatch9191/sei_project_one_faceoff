@@ -68,10 +68,14 @@ function startGame() {
   score = 0
   lives = 3
 
+  scoreTicker.innerHTML = 0
+
   if (lives === 3) {
     gunOne.style.display = 'initial'
     gunTwo.style.display = 'initial'
+    gunThree.style.display = 'initial'
   }
+
 
   createGrid()
   removeEnemy()
@@ -271,14 +275,14 @@ function addRandomEnemyShot() {
           cells[newShot].classList.add(playerDeadClass)
           setTimeout(() => {
             cells[newShot].classList.remove(playerDeadClass)
-          }, 500)
+          }, 138)
         } else if (lives === 1) {
           gunTwo.style.display = 'none'
           playFxAudio(playerAudio, castorHurtSoundTwo)
           cells[newShot].classList.add(playerDeadClass)
           setTimeout(() => {
             cells[newShot].classList.remove(playerDeadClass)
-          }, 500)
+          }, 138)
         } else if ((lives === 0)) {
           gunThree.style.display = 'none'
           playFxAudio(playerAudio, castorDead)
@@ -294,9 +298,9 @@ function addRandomEnemyShot() {
         }
 
       }
-    }, 140)
+    }, 155)
 
-  }, 3800)
+  }, 3000)
 }
 
 // PLAYER FUNCTIONS
