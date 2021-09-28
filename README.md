@@ -22,7 +22,12 @@
 
   You can view the finished game here: [hatch9191.github.io/sei_project_one_faceoff/](hatch9191.github.io/sei_project_one_faceoff/)
 
-![Game Image](https://res.cloudinary.com/dn11uqgux/image/upload/v1632834614/project-setup-test/face-off_ubivvw.png)
+<!-- ![Game Image](https://res.cloudinary.com/dn11uqgux/image/upload/v1632834614/project-setup-test/face-off_ubivvw.png) -->
+
+<p align="center">
+  <img src="https://res.cloudinary.com/dn11uqgux/image/upload/v1632834614/project-setup-test/face-off_ubivvw.png" />
+</p>
+
 
 ## The Brief
 
