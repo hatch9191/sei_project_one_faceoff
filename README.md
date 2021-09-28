@@ -110,7 +110,7 @@
 
 ## Challenges
 
-- When either the enemy and player shots moved off the board I would get an “Uncaught TypeError”. This was down to the Shot class being applied to non-existent cells. To try to prohibit this class being added to cells “off the grid” I set parameters on the shot movement functions so they would not be applied if the current cell was greater or smaller than the final row.
+- When either the enemy and player shots moved off the board I would get an “Uncaught TypeError”. This was down to the Shot class being applied to non-existent cells. To try to prohibit this class being added to cells “off the grid” I set parameters on the shot movement functions so they would not be applied if the current cell was greater or smaller than the final row. Unfortunately this wasn’t successful in stopping this error so I decided to increase the size of the grid to 14x14 and set the parameters for clearing the setInterval to 2 rows from the ends of the grid and put a setTimeout on removing the Shot class which did fix the issue, if slightly unelegantly.
 ```javascript
  if (newShot > 182) {
        clearInterval(shotMoveInterval)
@@ -118,7 +118,6 @@
          cells[newShot].classList.remove(enemyShotClass)
        }, 1001)
 ```
-  Unfortunately this wasn’t successful in stopping this error so I decided to increase the size of the grid to 14x14 and set the parameters for clearing the setInterval to 2 rows from the ends of the grid and put a setTimeout on removing the Shot class which did fix the issue, if slightly unelegantly.
 - The classic Space-Invaders enemy movement down the screen was one of my Nice-To-Have goals. I realised that this wasn’t going to be simple early on so chose to work on other elements that I felt would give more of an impact. In the end I wasn’t able to implement a working version of this in the game but on reflection I believe I could have achieved this with a separate set of virtual reference points for the enemy array which would lend the actual enemy array its predictable movement.
 
 ## Bugs
