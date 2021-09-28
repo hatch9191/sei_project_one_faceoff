@@ -73,7 +73,7 @@
 
   Adding the Lives went hand-in-hand with setting the Game Over parameters. This was really a satisfying task as it caused me to go over many of the game functions to add ‘if’ statements that would define whether the game was still able to continue or not (see one code snippet below). The lives could then also be represented in the Infobar. Initially the lives were represented with a number but this proved a perfect opportunity to add in another reference from the film, Castor Troy’s iconic gold guns.
 
-```
+```javascript
   function moveEnemy() {
  setTimeout(() => {
  
