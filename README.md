@@ -1,4 +1,4 @@
-# GA (SEI) Project One - Face/Off (Space Invaders Game)
+# GA Project One - Face/Off (Space Invaders Game)
 ---
 ## Table of Contents
 - Project Overview
