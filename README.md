@@ -99,3 +99,46 @@
  }, moveTiming)
 }
 ```
+
+  Having completed most of my MVPs and Nice-To-Haves, I revisited the enemy movement which had troubled me earlier in the project. I tried tweaking a few things again but did not have any inspiration so instead looked to increase the difficulty of the game. Adding in a moveTiming variable instructs the approaching enemies to increase their speed as they close down the grid (see code snippet above). This was really fun to add in and made the game a lot more challenging and exciting to play.
+  
+### Day 8 - Tidying Up Styling
+
+  As I was happy with the functionality I had achieved by this point, the final day was an opportunity to fine tune some of my styling. As I was working without any CSS frameworks on this, it was both a blessing and a curse. The game ended up looking very unique but was very fiddly to deal with.
+  
+  I also did plenty of testing and realised I had not created a ‘Try Again’ option at the Game Over menu. I needed to take account for resetting the enemy array, score and lives as well as updating the styles to hide the menus. This was a simple but quite a major functionality addition at such a late stage. I’m glad I was able to put this in as I think it adds a lot to the feel of the completeness of the game. 
+
+## Challenges
+
+- When either the enemy and player shots moved off the board I would get an “Uncaught TypeError”. This was down to the Shot class being applied to non-existent cells. To try to prohibit this class being added to cells “off the grid” I set parameters on the shot movement functions so they would not be applied if the current cell was greater or smaller than the final row.
+```javascript
+ if (newShot > 182) {
+       clearInterval(shotMoveInterval)
+       setTimeout(() => {
+         cells[newShot].classList.remove(enemyShotClass)
+       }, 1001)
+```
+  Unfortunately this wasn’t successful in stopping this error so I decided to increase the size of the grid to 14x14 and set the parameters for clearing the setInterval to 2 rows from the ends of the grid and put a setTimeout on removing the Shot class which did fix the issue, if slightly unelegantly.
+- The classic Space-Invaders enemy movement down the screen was one of my Nice-To-Have goals. I realised that this wasn’t going to be simple early on so chose to work on other elements that I felt would give more of an impact. In the end I wasn’t able to implement a working version of this in the game but on reflection I believe I could have achieved this with a separate set of virtual reference points for the enemy array which would lend the actual enemy array its predictable movement.
+
+## Bugs
+
+- Sometimes enemies will be hit by a player’s shot but they will not be removed from the enemy array.
+- Change the ‘shoot’ button on the keyboard to another key, currently having this on the shift key means Windows OS users will get sticky keys from repeated presses.
+
+## Wins 
+
+- I was really happy with the clarity of the JavaScript I wrote, I feel it is easy to follow as variables and functions signpost well their intent.
+- The aesthetic was almost exactly what I had imagined when I came up with the Face/Off concept. It was tricky to find some of the assets I used as they came from many sources and required some image and sound editing to make fit the theme.
+
+## Future Improvements
+
+- Improved enemy movement, move to the right then down one row then change direction.
+- Introduce a maximum fire-rate for the player.
+- Create multiple levels with rising difficulty.
+- Add a ‘big-boss’ who moves at a different speed from the main enemies.
+
+## Key Learnings 
+
+  This project was particularly helpful in reinforcing many of the basic concepts of programming with JavaScript. In particular, I became particularly comfortable with DOM manipulation and creating variables and functions which I could write once and use many times throughout the codebase, greatly reducing the number of lines and complication of the code. 
+  Being my first project after learning the basics of HTML, CSS and JS, this was a pretty daunting task to take on. Thankfully, it didn’t take long to get into the flow of problem solving and in the end I was happy with my final version.
