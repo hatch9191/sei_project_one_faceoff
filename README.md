@@ -20,7 +20,7 @@
 
   Being a huge fan of the ridiculous action-epic Face/Off, featuring Nick Cage and John Travolta, I smelt a perfect opportunity for a mash-up theme, this time with evil Castor Troy defending the airport hangar from the waves of cops swarming around him. 
 
-  You can view the finished game here: [hatch9191.github.io/sei_project_one_faceoff/](hatch9191.github.io/sei_project_one_faceoff/)
+You can view the deployed project [HERE](https://bit.ly/3h9TViV).
 
 <!-- ![Game Image](https://res.cloudinary.com/dn11uqgux/image/upload/v1632834614/project-setup-test/face-off_ubivvw.png) -->
 
