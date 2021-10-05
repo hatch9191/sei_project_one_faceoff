@@ -62,9 +62,9 @@ You can view the deployed project [HERE](https://bit.ly/3h9TViV).
 
   The initial steps on my Core goals lists were to create movement for the player and for the enemy sprites. I knew the key concepts behind moving the sprites from one grid-box to the next were the same, but I wasn’t quite sure yet on how I would attain the enemy waves moving across and down as in the original Space Invaders. 
 
-  I decided to get the player movement in place first. Using the grid numbers it was very easy to attain movement laterally between boxes. As a player presses the assigned movement key, the player location is updated +/-1 from its current location. In the same function classes can be removed and then added to show the player’s location using a sprite image. 
+  I decided to get the player movement in place first. Using the grid numbers it was very easy to attain movement laterally between boxes. As a player presses the assigned movement key, the player location is updated +/-1 from its current location. In the same function, classes can be removed and then added to show the player’s location using a sprite image. 
     
-  For the enemy movement I decided to up the functionality in stages. Having created an array of enemies, I initially copied the basic +1 grid movement from the player movement. When trying to get the enemies to move down and reverse direction I came across an anticipated issue. I tried two methods, one where I split the enemy array into three rows and set the highest enemy from each row as the reference point, and then one where the highest placed enemy from the full enemy array acted as the reference point. The problem would be when removing these reference point enemies from the arrays as this would result in disjointed movement. Trial and test of these methods took considerable time to come up with only to get poor results, therefore I rolled back to the basic movement and decided to continue on with other functionality. 
+  For the enemy movement I decided to up the functionality in stages. Having created an array of enemies, I initially copied the basic +1 grid movement from the player movement. When trying to get the enemies to move down and reverse direction I came across an anticipated issue. I tried two methods, one where I split the enemy array into three rows and set the highest enemy from each row as the reference point, and then one where the highest placed enemy from the full enemy array acted as the reference point. The problem would be when removing these reference point enemies from the arrays as this would result in disjointed movement. Trial and testing of these methods took considerable time to come up with, only to get poor results, therefore I rolled back to the basic movement and decided to continue on with other functionality. 
 
 ### Day 4-5 - Shooting and Game Audio
 
@@ -115,7 +115,7 @@ You can view the deployed project [HERE](https://bit.ly/3h9TViV).
 
 ## Challenges
 
-- When either the enemy and player shots moved off the board I would get an “Uncaught TypeError”. This was down to the Shot class being applied to non-existent cells. To try to prohibit this class being added to cells “off the grid” I set parameters on the shot movement functions so they would not be applied if the current cell was greater or smaller than the final row. Unfortunately this wasn’t successful in stopping this error so I decided to increase the size of the grid to 14x14 and set the parameters for clearing the setInterval to 2 rows from the ends of the grid and put a setTimeout on removing the Shot class which did fix the issue, if slightly unelegantly.
+- When either the enemy or player shots moved off the board I would get an “Uncaught TypeError”. This was down to the Shot class being applied to non-existent cells. To try to prohibit this class being added to cells “off the grid” I set parameters on the shot movement functions so they would not be applied if the current cell was greater or smaller than the final row. Unfortunately this wasn’t successful in stopping this error so I decided to increase the size of the grid to 14x14 and set the parameters for clearing the setInterval to 2 rows from the ends of the grid and put a setTimeout on removing the Shot class which did fix the issue, if slightly unelegantly.
 ```javascript
  if (newShot > 182) {
        clearInterval(shotMoveInterval)
@@ -123,7 +123,7 @@ You can view the deployed project [HERE](https://bit.ly/3h9TViV).
          cells[newShot].classList.remove(enemyShotClass)
        }, 1001)
 ```
-- The classic Space-Invaders enemy movement down the screen was one of my Nice-To-Have goals. I realised that this wasn’t going to be simple early on so chose to work on other elements that I felt would give more of an impact. In the end I wasn’t able to implement a working version of this in the game but on reflection I believe I could have achieved this with a separate set of virtual reference points for the enemy array which would lend the actual enemy array its predictable movement.
+- The classic Space-Invaders enemy movement down the screen was one of my Nice-To-Have goals. I realised that this wasn’t going to be simple early on so chose to work on other elements that I felt would have more of an impact. In the end I wasn’t able to implement a working version of this in the game but on reflection I believe I could have achieved this with a separate set of virtual reference points for the enemy array which would lend the actual enemy array its predictable movement.
 
 ## Bugs
 
@@ -132,8 +132,8 @@ You can view the deployed project [HERE](https://bit.ly/3h9TViV).
 
 ## Wins 
 
-- I was really happy with the clarity of the JavaScript I wrote, I feel it is easy to follow as variables and functions signpost well their intent.
-- The aesthetic was almost exactly what I had imagined when I came up with the Face/Off concept. It was tricky to find some of the assets I used as they came from many sources and required some image and sound editing to make fit the theme.
+- I was really happy with the clarity of the JavaScript I wrote, I feel it is easy to follow as variables and functions signpost their intent well.
+- The aesthetic was almost exactly what I had imagined when I came up with the Face/Off concept. It was tricky to find some of the assets I used as they came from many sources and required some image and sound editing to make them fit the theme.
 
 ## Future Improvements
 
